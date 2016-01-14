@@ -771,13 +771,13 @@ for comp in bayes_comp:
 			sources_stats.append(g_stats)
 
 			##Need this bit for plotting later on
-			if comp[0] == 'S':
-				pass
-			else:
-				comp = comp[1:]
-			reject_list.append(src_all.names[0])
-			reject_pile.write(comp)
-			reject_pile.write('END_GROUP\n')
+#			if comp[0] == 'S':
+#				pass
+#			else:
+#				comp = comp[1:]
+#			reject_list.append(src_all.names[0])
+#			reject_pile.write(comp)
+#			reject_pile.write('END_GROUP\n')
 	
 			
 		elif answer == 'a':

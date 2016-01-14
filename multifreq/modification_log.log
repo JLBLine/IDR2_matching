@@ -1,0 +1,6 @@
++++++++++++++EYEBALL++++++++++++++++++++++++
+J000441+124922 - vlssr source to the left seems associated with nvss far left
+                 source; need to include for consistency's sake
+J002442-420208 - remove sumss source, looks like sidelobe emission
+J002619-150423 - vlssr looks noisy, also left hand component missing in vlssr
+                 image, so discard vlssr from match

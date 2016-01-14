@@ -1579,10 +1579,12 @@ def create_plot_nocombo(comp,comp2,accepted_inds,num_matches,this_match,match_cr
 	src_all2 = get_allinfo(all_info2,good_names)
 	src_g2 = get_srcg(src_all2,match12,good_names)
 	
+	#print good_names,this_match
+	
 	if this_match != 'Nope':
 		pass
 	else:
-		comb_crit, ra_ws, rerr_ws, dec_ws, derr_ws, temp_freqs, comb_freqs, comb_fluxs, comb_ferrs, comb_fit, comb_jstat, comb_chi_red, combined_names, set_freqs, set_fluxs, set_fits, comb_sources = mkl.combine_flux(src_all2,src_g2,accepted_inds,'plot=yes',len(matches))
+		comb_crit, ra_ws, rerr_ws, dec_ws, derr_ws, temp_freqs, comb_freqs, comb_fluxs, comb_ferrs, comb_fit, comb_jstat, comb_chi_red, combined_names, set_freqs, set_fluxs, set_fits, comb_sources = mkl.combine_flux(src_all2,src_g2,xrange(len(src_all2.names)),'plot=yes',len(matches))
 	
 		bright_colours = ['#FF6600','#33FF33','#FF47A3','#00ebb3']
 		
@@ -1617,6 +1619,10 @@ def create_plot_nocombo(comp,comp2,accepted_inds,num_matches,this_match,match_cr
 		
 			for pos in xrange(len(ra_ws)):
 				patch = plot_pos_comb('*',bright_colours[pos],ra_ws[pos],dec_ws[pos],0,0,combined_names[pos],16,ax_main,ax_main.get_transform("fk5")) #rerr_ws[pos],derr_ws[pos]
+				
+			for freq in xrange(len(comb_freqs)):
+				plot_errors_comb('*',bright_colours[freq],comb_freqs[freq],comb_fluxs[freq],comb_ferrs[freq],'combo',16,ax_spectral)
+				#comb_p, = ax_spectral.plot(temp_freqs,np.exp(comb_fit.fittedvalues),linestyle='--',linewidth=1.5,color='m')
 				
 	if this_match != 'Nope':
 		accepted_match = matches2[int(this_match)-1].split()
@@ -1672,7 +1678,11 @@ def create_plot_nocombo(comp,comp2,accepted_inds,num_matches,this_match,match_cr
 		if accepted_inds=='Nope':
 			pass
 		else:
-			comb_crit, ra_ws, rerr_ws, dec_ws, derr_ws, temp_freqs, comb_freqs, comb_fluxs, comb_ferrs, comb_fit, comb_jstat, comb_chi_red, combined_names, set_freqs, set_fluxs, set_fits, comb_sources = mkl.combine_flux(src_all2,src_g2,accepted_inds,'plot=yes',len(matches))
+			comb_crit, ra_ws, rerr_ws, dec_ws, derr_ws, temp_freqs, comb_freqs, comb_fluxs, comb_ferrs, comb_fit, comb_jstat, comb_chi_red, combined_names, set_freqs, set_fluxs, set_fits, comb_sources = mkl.combine_flux(src_all2,src_g2,xrange(len(src_all2.names)),'plot=yes',len(matches))
+			
+			for freq in xrange(len(comb_freqs)):
+				plot_errors_comb('*',bright_colours[freq],comb_freqs[freq],comb_fluxs[freq],comb_ferrs[freq],'combo',16,ax_spectral_right)
+				comb_p, = ax_spectral_right.plot(temp_freqs,np.exp(comb_fit.fittedvalues),linestyle='--',linewidth=1.5,color='m')
 		
 			for pos in xrange(len(ra_ws)):
 				patch = plot_pos_comb('*',bright_colours[pos],ra_ws[pos],dec_ws[pos],0,0,combined_names[pos],16,ax_main_right,ax_main_right.get_transform("fk5")) #rerr_ws[pos],derr_ws[pos]

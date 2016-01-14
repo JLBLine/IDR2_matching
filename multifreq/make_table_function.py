@@ -403,12 +403,24 @@ def combine_flux(src_all,src_g,accepted_inds,num_matches):
 	
 	##Get the sources out of the array in list format (which is used later when making the sources
 	##to add to the final table)
-	for freqs in temp_freqs:
-		for freq in freqs: log_temp_freqs.append(log(freq))
-	for fluxs in temp_fluxs:
-		for flux in fluxs: log_temp_fluxs.append(log(flux))
-	for i in xrange(len(temp_ferrs)):
-		for j in xrange(len(temp_ferrs[i])): log_temp_ferrs.append(temp_ferrs[i][j]/temp_fluxs[i][j])
+	for i in xrange(len(temp_freqs)):
+		for j in xrange(len(temp_freqs[i])):
+			if temp_fluxs[i][j] == -100000.0 or isnan(temp_fluxs[i][j])==True:
+				pass
+			else:
+				log_temp_freqs.append(log(temp_freqs[i][j]))
+	for i in xrange(len(temp_freqs)):
+		for j in xrange(len(temp_freqs[i])):
+			if temp_fluxs[i][j] == -100000.0 or isnan(temp_fluxs[i][j])==True:
+				pass
+			else:
+				log_temp_fluxs.append(log(temp_fluxs[i][j]))
+	for i in xrange(len(temp_freqs)):
+		for j in xrange(len(temp_freqs[i])):
+			if temp_fluxs[i][j] == -100000.0 or isnan(temp_fluxs[i][j])==True:
+				pass
+			else:
+				log_temp_ferrs.append(temp_ferrs[i][j]/temp_fluxs[i][j])
 
 	##Fit and find residuals to the combined spectrum
 	comb_fit,comb_jstat,comb_bse,comb_chi_red = mkl.fit_line(array(log_temp_freqs),array(log_temp_fluxs),array(log_temp_ferrs))
@@ -479,9 +491,15 @@ def get_srcg(info):
 		fluxss = []
 		ferrss = []
 		for k in xrange(num_freq):
-			freqss.append(float(info[6+ind+(3*k)]))
-			fluxss.append(float(info[7+ind+(3*k)]))
-			ferrss.append(float(info[8+ind+(3*k)]))
+			##Test to see if flux is a nan or -100000.0; make sure all flux/freq info is -100000.0 if so
+			if isnan(float(info[7+ind+(3*k)])) == False or float(info[7+(3*i)]) != -100000.0:
+				freqss.append(float(info[6+ind+(3*k)]))
+				fluxss.append(float(info[7+ind+(3*k)]))
+				ferrss.append(float(info[8+ind+(3*k)]))
+			else:
+				freqss.append(-100000.0)
+				fluxss.append(-100000.0)
+				ferrss.append(-100000.0)
 			#if float(info[6+ind+(3*k)])!=-100000.0: all_freqs.append(float(info[6+ind+(3*k)]))
 			#if float(info[7+ind+(3*k)])!=-100000.0: all_fluxs.append(float(info[7+ind+(3*k)]))
 			#if float(info[8+ind+(3*k)])!=-100000.0: all_ferrs.append(float(info[8+ind+(3*k)]))
@@ -541,9 +559,15 @@ def get_allinfo(all_info):
 			fluxs = []
 			ferrs = []
 			for i in xrange(extra+1):
-				freqs.append(float(info[6+(3*i)]))
-				fluxs.append(float(info[7+(3*i)]))
-				ferrs.append(float(info[8+(3*i)]))
+				##Test to see if flux is a nan or -100000.0; make sure all flux/freq info is -100000.0 if so
+				if isnan(float(info[7+(3*i)])) == False or float(info[7+(3*i)]) != -100000.0:
+					freqs.append(float(info[6+(3*i)]))
+					fluxs.append(float(info[7+(3*i)]))
+					ferrs.append(float(info[8+(3*i)]))
+				else:
+					freqs.append(-100000.0)
+					fluxs.append(-100000.0)
+					ferrs.append(-100000.0)
 			src_all.freqs.append(array(freqs))
 			src_all.fluxs.append(array(fluxs))
 			src_all.ferrs.append(array(ferrs))

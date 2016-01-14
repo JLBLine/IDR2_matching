@@ -276,14 +276,27 @@ def combine_all_flux(src_all,src_g):
 	log_temp_fluxs = []
 	log_temp_ferrs = []
 	
-	##Get the sources out of the array in list format (which is used later when making the sources
+	#Get the sources out of the array in list format (which is used later when making the sources
 	##to add to the final table)
-	for freqs in temp_freqs:
-		for freq in freqs: log_temp_freqs.append(np.log(freq))
-	for fluxs in temp_fluxs:
-		for flux in fluxs: log_temp_fluxs.append(np.log(flux))
-	for i in xrange(len(temp_ferrs)):
-		for j in xrange(len(temp_ferrs[i])): log_temp_ferrs.append(temp_ferrs[i][j]/temp_fluxs[i][j])
+	for i in xrange(len(temp_freqs)):
+		for j in xrange(len(temp_freqs[i])):
+			if temp_fluxs[i][j] == -100000.0 or np.isnan(temp_fluxs[i][j])==True:
+				pass
+			else:
+				log_temp_freqs.append(np.log(temp_freqs[i][j]))
+	for i in xrange(len(temp_freqs)):
+		for j in xrange(len(temp_freqs[i])):
+			if temp_fluxs[i][j] == -100000.0 or np.isnan(temp_fluxs[i][j])==True:
+				pass
+			else:
+				log_temp_fluxs.append(np.log(temp_fluxs[i][j]))
+	for i in xrange(len(temp_freqs)):
+		for j in xrange(len(temp_freqs[i])):
+			if temp_fluxs[i][j] == -100000.0 or np.isnan(temp_fluxs[i][j])==True:
+				pass
+			else:
+				log_temp_ferrs.append(temp_ferrs[i][j]/temp_fluxs[i][j])
+
 
 	##Fit and find residuals to the combined spectrum
 	comb_fit,comb_jstat,comb_bse,comb_chi_red = mkl.fit_line(np.array(log_temp_freqs),np.array(log_temp_fluxs),np.array(log_temp_ferrs))
@@ -579,14 +592,27 @@ def combine_flux(src_all,src_g,accepted_inds,num_matches):
 	log_temp_fluxs = []
 	log_temp_ferrs = []
 	
-	##Get the sources out of the array in list format (which is used later when making the sources
+	#Get the sources out of the array in list format (which is used later when making the sources
 	##to add to the final table)
-	for freqs in temp_freqs:
-		for freq in freqs: log_temp_freqs.append(np.log(freq))
-	for fluxs in temp_fluxs:
-		for flux in fluxs: log_temp_fluxs.append(np.log(flux))
-	for i in xrange(len(temp_ferrs)):
-		for j in xrange(len(temp_ferrs[i])): log_temp_ferrs.append(temp_ferrs[i][j]/temp_fluxs[i][j])
+	for i in xrange(len(temp_freqs)):
+		for j in xrange(len(temp_freqs[i])):
+			if temp_fluxs[i][j] == -100000.0 or np.isnan(temp_fluxs[i][j])==True:
+				pass
+			else:
+				log_temp_freqs.append(np.log(temp_freqs[i][j]))
+	for i in xrange(len(temp_freqs)):
+		for j in xrange(len(temp_freqs[i])):
+			if temp_fluxs[i][j] == -100000.0 or np.isnan(temp_fluxs[i][j])==True:
+				pass
+			else:
+				log_temp_fluxs.append(np.log(temp_fluxs[i][j]))
+	for i in xrange(len(temp_freqs)):
+		for j in xrange(len(temp_freqs[i])):
+			if temp_fluxs[i][j] == -100000.0 or np.isnan(temp_fluxs[i][j])==True:
+				pass
+			else:
+				log_temp_ferrs.append(temp_ferrs[i][j]/temp_fluxs[i][j])
+
 
 	##Fit and find residuals to the combined spectrum
 	comb_fit,comb_jstat,comb_bse,comb_chi_red = mkl.fit_line(np.array(log_temp_freqs),np.array(log_temp_fluxs),np.array(log_temp_ferrs))
